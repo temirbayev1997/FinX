@@ -5,6 +5,8 @@ const cors = require("cors");
 const taxRoutes = require("./routes/tax.routes");
 const aiRoutes = require("./routes/ai.routes");
 const excelRoutes = require("./routes/excel.routes");
+const transactionsRoutes = require("./routes/transactions");
+const analyticsRoutes = require("./routes/analytics.routes");
 
 const app = express();
 
@@ -14,12 +16,10 @@ app.use(express.json());
 app.use("/api/tax", taxRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/excel", excelRoutes);
+app.use("/api/transactions", transactionsRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 const PORT = 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
 async function start() {
   await initDB(); 
