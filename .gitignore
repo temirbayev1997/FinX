@@ -1,0 +1,6 @@
+node_modules/
+models/
+.env
+dist/
+build/
+models.zip
