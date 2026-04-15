@@ -23,14 +23,27 @@ async function generateReport(data) {
 Пиши просто и понятно.
 `;
 
-  const response = await axios.post("http://localhost:8080/completion", {
-    prompt,
-    temperature: 0.5,
-    n_predict: 150,
-    stop: ["</s>"],
-  });
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/v1/chat/completions",
+      {
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        max_tokens: 200,
+        temperature: 0.5,
+      }
+    );
 
-  return response.data.content;
+    return response.data.choices[0].message.content;
+
+  } catch (err) {
+    console.error("AI ERROR:", err.response?.data || err.message);
+    throw err;
+  }
 }
 
 module.exports = { generateReport };
