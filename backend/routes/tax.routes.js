@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const pool = require("../db");
+const calculate = require("../utils/calculate");
 
-const { calculateTax } = require("../utils/calculate");
-
-router.post("/calculate", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const result = calculateTax(req.body);
-    res.json(result);
+    const result = await pool.query("SELECT * FROM transactions");
+
+    const data = calculate(result.rows, "200");
+
+    res.json(data);
   } catch (err) {
     res.status(500).json({ error: "Ошибка расчёта" });
   }

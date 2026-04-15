@@ -19,4 +19,27 @@ router.post("/report", async (req, res) => {
   }
 });
 
+router.get("/insights", async (req, res) => {
+  const result = await pool.query("SELECT * FROM transactions");
+
+  const data = calculate(result.rows, "200");
+
+  const prompt = `
+  У меня есть бизнес данные:
+
+  Доход: ${data.income}
+  Расход: ${data.expense}
+  Прибыль: ${data.profit}
+
+  Дай краткие рекомендации:
+  - оптимизация расходов
+  - рост прибыли
+  - финансовое состояние
+  `;
+
+  const ai = await generateAI(prompt);
+
+  res.json({ insights: ai });
+});
+
 module.exports = router;
