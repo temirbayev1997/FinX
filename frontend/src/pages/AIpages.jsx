@@ -1,5 +1,5 @@
 import { Card, Button, Select } from "antd";
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { generateReportAPI, downloadExcelAPI, askAI } from "../serv/api";
 
 export default function AI() {
@@ -7,10 +7,14 @@ export default function AI() {
   const [report, setReport] = useState("");
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [reportLoading, setReportLoading] = useState(false);
 
   const generate = async () => {
+    setReportLoading(true);
     const res = await generateReportAPI({ mode });
     setReport(res.report);
+    setReportLoading(false);
   };
 
   const download = async () => {
@@ -26,56 +30,87 @@ export default function AI() {
   const send = async () => {
     if (!message) return;
 
+    setLoading(true);
+
     const userMsg = { role: "user", text: message };
     setChat((prev) => [...prev, userMsg]);
 
-    const res = await askAI(message);
+    try {
+      const res = await askAI(message);
 
-    const aiMsg = { role: "ai", text: res.reply };
-    setChat((prev) => [...prev, aiMsg]);
+      const aiMsg = { role: "ai", text: res.reply };
+      setChat((prev) => [...prev, aiMsg]);
+    } catch {
+      setChat((prev) => [
+        ...prev,
+        { role: "ai", text: "Ошибка AI 😢" },
+      ]);
+    }
 
+    setLoading(false);
     setMessage("");
   };
 
+  const chatRef = useRef(null);
+
+  useEffect(() => {
+    chatRef.current?.scrollTo(0, chatRef.current.scrollHeight);
+  }, [chat]);
+
   return (
     <div>
-
       <h1>AI Отчёты</h1>
-      <Card style={{ marginBottom: 20 }}>
-  <h3>🤖 AI Помощник</h3>
-
-  {/* чат */}
-  <div style={{ maxHeight: 300, overflowY: "auto", marginBottom: 10 }}>
-    {chat.map((msg, i) => (
-      <div key={i} style={{ marginBottom: 10 }}>
-        <b>{msg.role === "user" ? "Ты" : "AI"}:</b>
-        <div>{msg.text}</div>
-      </div>
-    ))}
+        <Card style={{ marginBottom: 20 }}>
+      <h3>AI Помощник</h3>
+      <div style={{ maxHeight: 300, overflowY: "auto", marginBottom: 10 }} ref={chatRef}>
+{chat.map((msg, i) => (
+  <div
+    key={i}
+    style={{
+      textAlign: msg.role === "user" ? "right" : "left",
+      marginBottom: 10,
+    }}
+  >
+    <div
+      style={{
+        display: "inline-block",
+        background: msg.role === "user" ? "#1677ff" : "#1f1f1f",
+        color: "white",
+        padding: "8px 12px",
+        borderRadius: 10,
+        maxWidth: "70%",
+      }}
+    >
+      {msg.text}
+    </div>
   </div>
-
-  {/* быстрые кнопки */}
+))}
+      </div>
   <div style={{ marginBottom: 10 }}>
-    <Button onClick={() => setMessage("Как снизить расходы?")}>
-      💸 Снизить расходы
+    <Button onClick={() => {
+  setMessage("Как снизить расходы?");
+  setTimeout(send, 100);
+}}  >
+      Снизить расходы
     </Button>
 
     <Button
       style={{ marginLeft: 10 }}
       onClick={() => setMessage("Как увеличить прибыль?")}
     >
-      📈 Увеличить прибыль
+      Увеличить прибыль
     </Button>
   </div>
 
-  <input
-    value={message}
-    onChange={(e) => setMessage(e.target.value)}
-    placeholder="Спроси что-нибудь..."
-    style={{ width: "100%", padding: 8 }}
-  />
+<input
+  value={message}
+  onChange={(e) => setMessage(e.target.value)}
+  onKeyDown={(e) => e.key === "Enter" && send()}
+  placeholder="Спроси что-нибудь..."
+  style={{ width: "100%", padding: 8 }}
+/>
 
-  <Button type="primary" onClick={send} style={{ marginTop: 10 }}>
+  <Button type="primary" onClick={send} style={{ marginTop: 10 }} loading={loading} >
     Отправить
   </Button>
 </Card>
@@ -90,12 +125,12 @@ export default function AI() {
       />
 
       <Card>
-        <Button type="primary" onClick={generate}>
-          🤖 Сформировать отчёт
+        <Button type="primary" onClick={generate} loading={reportLoading}>
+          Сформировать отчёт
         </Button>
 
         <Button style={{ marginLeft: 10 }} onClick={download}>
-          📊 Excel
+          Excel
         </Button>
 
         {report && (

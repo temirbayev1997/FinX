@@ -3,10 +3,13 @@ function calculate(transactions, mode = "200") {
   let expense = 0;
 
   transactions.forEach((t) => {
-    if (t.type === "income") {
-      income += Number(t.amount);
-    } else {
-      expense += Number(t.amount);
+    const type = String(t.type).toLowerCase().trim();
+    const amount = Number(String(t.amount).replace(/\s/g, ""));
+
+    if (type === "income") {
+      income += amount;
+    } else if (type === "expense") {
+      expense += amount;
     }
   });
 

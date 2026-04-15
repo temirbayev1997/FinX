@@ -7,9 +7,14 @@ services:
     volumes:
       - ./models:/models
     command: >
-      -m /models/gemma-2-2b-it-q4_k_m.gguf
+      -m /models/Meta-Llama-3-8B-Instruct.Q4_K_M.gguf
+      -c 4096
+      -ngl 35
       --host 0.0.0.0
       --port 8080
+      --temp 0.3
+      --top-p 0.9
+      --repeat-penalty 1.1
     deploy:
       resources:
         reservations:

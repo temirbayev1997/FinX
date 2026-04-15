@@ -4,3 +4,4 @@ models/
 dist/
 build/
 models.zip
+docker-compose-test.yml
