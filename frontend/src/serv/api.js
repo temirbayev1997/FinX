@@ -66,3 +66,15 @@ export const getForecast = async () => {
   const res = await fetch(`${BASE_URL}/analytics/forecast`);
   return res.json();
 };
+
+export const askAI = async (message) => {
+  const res = await fetch(`${BASE_URL}/ai/chat`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ message }),
+  });
+
+  return res.json();
+};
