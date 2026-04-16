@@ -1,36 +1,19 @@
 const axios = require("axios");
 
-async function generateReport(data) {
-  const prompt = `
-Ты помощник для ИП в Казахстане.
+async function generateReport(prompt) {
+  try {
+    const response = await axios.post("http://localhost:8080/completion", {
+      prompt: `${prompt}`, // 🔥 ОБЯЗАТЕЛЬНО
+      n_predict: 200,
+      temperature: 0.4,
+    });
 
-Данные:
-Доход: ${data.income}
-Расход: ${data.expense}
-Прибыль: ${data.profit}
-Налог: ${data.tax}
+    return response.data.content;
 
-Сделай коротко:
-
-Отчёт:
-- ...
-
-Рекомендации:
-1.
-2.
-
-Не придумывай числа.
-Пиши просто и понятно.
-`;
-
-  const response = await axios.post("http://localhost:8080/completion", {
-    prompt,
-    temperature: 0.5,
-    n_predict: 150,
-    stop: ["</s>"],
-  });
-
-  return response.data.content;
+  } catch (err) {
+    console.error("AI ERROR:", err.response?.data || err.message);
+    throw err;
+  }
 }
 
 module.exports = { generateReport };

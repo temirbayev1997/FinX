@@ -1,21 +1,26 @@
-function calculateTax(data) {
-  const { income, expense, mode } = data;
+function calculate(transactions, mode = "200") {
+  let income = 0;
+  let expense = 0;
 
-  let profit = income - expense;
-  let tax = 0;
+  transactions.forEach((t) => {
+    const type = String(t.type).toLowerCase().trim();
+    const amount = Number(String(t.amount).replace(/\s/g, ""));
 
-  if (mode === "200") {
-    tax = income * 0.03;
-  } else if (mode === "220") {
-    tax = profit * 0.1;
-  }
+    if (type === "income") {
+      income += amount;
+    } else if (type === "expense") {
+      expense += amount;
+    }
+  });
 
-  return {
-    income,
-    expense,
-    profit,
-    tax,
-  };
+  const profit = income - expense;
+
+  const tax =
+    mode === "200"
+      ? income * 0.03
+      : profit * 0.1;
+
+  return { income, expense, profit, tax };
 }
 
-module.exports = { calculateTax };
+module.exports = calculate;

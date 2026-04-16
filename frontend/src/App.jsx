@@ -1,14 +1,15 @@
 import { Layout, Menu } from "antd";
 import {
   DashboardOutlined,
-  DollarOutlined,
   RobotOutlined,
+  TableOutlined
 } from "@ant-design/icons";
 
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
-import Taxes from "./pages/Taxes";
+import Transactions from "./pages/Transactions";
+import AIpages from "./pages/AIpages";
 
 const { Sider, Content } = Layout;
 
@@ -28,7 +29,8 @@ function AppLayout() {
           defaultSelectedKeys={["1"]}
           onClick={(e) => {
             if (e.key === "1") navigate("/");
-            if (e.key === "2") navigate("/taxes");
+            if (e.key === "2") navigate("/ai");
+            if (e.key === "3") navigate("/transactions");
           }}
           items={[
             {
@@ -38,14 +40,14 @@ function AppLayout() {
             },
             {
               key: "2",
-              icon: <DollarOutlined />,
-              label: "Налоги",
-            },
-            {
-              key: "3",
               icon: <RobotOutlined />,
               label: "AI отчёты",
             },
+            {
+              key: "3",
+              icon: <TableOutlined />,
+              label: "Операции",
+            }
           ]}
         />
       </Sider>
@@ -55,7 +57,8 @@ function AppLayout() {
         <Content style={{ padding: "20px" }}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/taxes" element={<Taxes />} />
+            <Route path="/ai" element={<AIpages />} />
+            <Route path="/transactions" element={<Transactions />} />
           </Routes>
         </Content>
       </Layout>
