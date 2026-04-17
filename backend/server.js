@@ -7,6 +7,7 @@ const aiRoutes = require("./routes/ai.routes");
 const excelRoutes = require("./routes/excel.routes");
 const transactionsRoutes = require("./routes/transactions");
 const analyticsRoutes = require("./routes/analytics.routes");
+const formsRoutes = require("./routes/forms.routes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/excel", excelRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/forms", formsRoutes);
 
 const PORT = 5000;
 
