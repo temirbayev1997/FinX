@@ -1,36 +1,34 @@
 const axios = require("axios");
 
-async function generateReport(data) {
-  const prompt = `
-Ты помощник для ИП в Казахстане.
+function cleanText(text = "") {
+  return text
+    .replace(/^Ответ:\s*/i, "")
+    .replace(/Первый вопрос:/gi, "")
+    .replace(/Второй вопрос:/gi, "")
+    .replace(/Третий вопрос:/gi, "")
+    .trim();
+}
 
-Данные:
-Доход: ${data.income}
-Расход: ${data.expense}
-Прибыль: ${data.profit}
-Налог: ${data.tax}
+async function generateReport(prompt) {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/completion",
+      {
+        prompt,
+        n_predict: 420,
+        temperature: 0.2,
+        top_k: 30,
+        top_p: 0.9,
+        stop: ["Пользователь:", "USER:"]
+      }
+    );
 
-Сделай коротко:
+    return cleanText(response.data.content);
 
-Отчёт:
-- ...
-
-Рекомендации:
-1.
-2.
-
-Не придумывай числа.
-Пиши просто и понятно.
-`;
-
-  const response = await axios.post("http://localhost:8080/completion", {
-    prompt,
-    temperature: 0.5,
-    n_predict: 150,
-    stop: ["</s>"],
-  });
-
-  return response.data.content;
+  } catch (err) {
+    console.log(err.message);
+    return "AI временно недоступен.";
+  }
 }
 
 module.exports = { generateReport };
