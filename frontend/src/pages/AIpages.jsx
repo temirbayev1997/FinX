@@ -18,7 +18,7 @@ import { useState, useRef, useEffect } from "react";
 
 import {
   generateReportAPI,
-  downloadExcelAPI,
+  downloadExcel,
   askAI
 } from "../serv/api";
 
@@ -59,23 +59,14 @@ export default function AI() {
 
   const download = async () => {
     try {
-      const blob = await downloadExcelAPI({
-        mode: "220"
-      });
-
-      const url =
-        window.URL.createObjectURL(blob);
-
-      const a =
-        document.createElement("a");
-
-      a.href = url;
-      a.download = "report.xlsx";
-      a.click();
+      await downloadExcel();
     } catch {
       message.error("Ошибка Excel");
     }
   };
+
+
+
 
   const send = async (
     text = messageText

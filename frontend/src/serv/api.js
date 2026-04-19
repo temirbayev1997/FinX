@@ -12,17 +12,29 @@ export const generateReportAPI = async (data) => {
   return res.json();
 };
 
-export const downloadExcelAPI = async (data) => {
-  const res = await fetch(`${BASE_URL}/excel/download`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+export const downloadExcel =
+  async () => {
+    const res = await fetch(
+      `${BASE_URL}/excel/download`
+    );
 
-  return res.blob();
-};
+    const blob =
+      await res.blob();
+
+    const url =
+      window.URL.createObjectURL(
+        blob
+      );
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+    link.download =
+      "report.xlsx";
+
+    link.click();
+  };
 
 export const getTransactions = async () => {
   const res = await fetch(`${BASE_URL}/transactions`);
@@ -77,4 +89,40 @@ export const askAI = async (message) => {
   });
 
   return res.json();
+};
+
+export const getClients =
+  async () => {
+    const res = await fetch(
+      `${BASE_URL}/clients`
+    );
+
+    return res.json();
+};
+
+export const createClient =
+  async (data) => {
+    const res = await fetch(
+      `${BASE_URL}/clients`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+        body: JSON.stringify(data)
+      }
+    );
+
+    return res.json();
+};
+
+export const deleteClient =
+  async (id) => {
+    await fetch(
+      `${BASE_URL}/clients/${id}`,
+      {
+        method: "DELETE"
+      }
+    );
 };
