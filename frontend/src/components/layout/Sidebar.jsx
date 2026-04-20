@@ -26,29 +26,10 @@ export default function Sidebar({
     useLocation();
 
   const getSelectedKey = () => {
-    if (
-      location.pathname === "/"
-    )
-      return ["1"];
-
-    if (
-      location.pathname ===
-      "/ai"
-    )
-      return ["2"];
-
-    if (
-      location.pathname ===
-      "/transactions"
-    )
-      return ["3"];
-
-    if (
-      location.pathname ===
-      "/clients"
-    )
-      return ["4"];
-    
+      if (location.pathname === "/app/dashboard") return ["1"];
+      if (location.pathname === "/app/ai") return ["2"];
+      if (location.pathname === "/app/transactions") return ["3"];
+      if (location.pathname === "/app/clients") return ["4"];
     return ["1"];
   };
 
@@ -91,29 +72,25 @@ export default function Sidebar({
             e.key ===
             "1"
           )
-            navigate("/");
-
+            navigate("/app/dashboard");
+            
           if (
             e.key ===
             "2"
           )
-            navigate("/ai");
+            navigate("/app/ai");
 
           if (
             e.key ===
             "3"
           )
-            navigate(
-              "/transactions"
-            );
+            navigate("/app/transactions");
 
           if (
             e.key ===
             "4"
           )
-            navigate(
-              "/clients"
-            );
+            navigate("/app/clients");
         }}
         items={[
           {

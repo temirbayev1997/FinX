@@ -98,35 +98,13 @@ export default function AppLayout() {
             borderRadius: 12
           }}
         >
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Dashboard />
-              }
-            />
-
-            <Route
-              path="/ai"
-              element={
-                <AIpages />
-              }
-            />
-
-            <Route
-              path="/transactions"
-              element={
-                <Transactions />
-              }
-            />
-
-            <Route
-              path="/clients"
-              element={
-                <Clients />
-              }
-            />
-          </Routes>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="ai" element={<AIpages />} />
+          <Route path="transactions" element={<Transactions />} />
+          <Route path="clients" element={<Clients />} />
+        </Routes>
         </Content>
       </Layout>
     </Layout>
