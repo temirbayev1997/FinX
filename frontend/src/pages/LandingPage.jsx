@@ -20,7 +20,7 @@ export default function LandingPage() {
           <a href='#features'>Возможности</a>
           <a href='#why'>Почему мы</a>
         </nav>
-        <Link to='/login' className='px-5 py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 transition'>Войти</Link>
+        <Link to='/app/' className='px-5 py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 transition'>Войти</Link>
       </header>
 
       <section className='relative max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-12 items-center'>
@@ -29,7 +29,7 @@ export default function LandingPage() {
           <h1 className='text-5xl md:text-7xl font-bold leading-tight'>Умный учёт и налоги <span className='text-blue-400'>без стресса</span></h1>
           <p className='text-slate-300 text-lg mt-6 max-w-xl'>Современный сервис для предпринимателей: финансы, отчёты, декларации и AI аналитика в одном месте.</p>
           <div className='flex flex-wrap gap-4 mt-8'>
-            <Link to='/login' className='px-8 py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 transition'>Начать бесплатно</Link>
+            <Link to='/app/' className='px-8 py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 transition'>Начать бесплатно</Link>
             <a href='#features' className='px-8 py-4 rounded-2xl border border-slate-600 hover:bg-white/5 transition'>Подробнее</a>
           </div>
           <div className='grid grid-cols-3 gap-6 mt-10 text-sm text-slate-300'>
@@ -91,7 +91,7 @@ export default function LandingPage() {
         <div className='rounded-3xl bg-gradient-to-br from-blue-600 to-purple-600 p-8'>
           <h3 className='text-3xl font-bold mb-4'>Готово к работе</h3>
           <p className='text-white/90 mb-6'>Подключайтесь сегодня и автоматизируйте финансовый учёт вашего бизнеса.</p>
-          <Link to='/login' className='px-8 py-4 rounded-2xl bg-white text-slate-900 font-semibold inline-block'>Попробовать</Link>
+          <Link to='/app/' className='px-8 py-4 rounded-2xl bg-white text-slate-900 font-semibold inline-block'>Попробовать</Link>
         </div>
       </section>
 
