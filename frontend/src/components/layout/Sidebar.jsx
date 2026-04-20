@@ -1,58 +1,132 @@
 import {
-  Home,
-  Wallet,
-  BarChart2,
-  Users,
-  HelpCircle,
-} from "lucide-react";
+  Layout,
+  Menu
+} from "antd";
 
-export default function Sidebar({ open, setOpen }) {
+import {
+  DashboardOutlined,
+  RobotOutlined,
+  TableOutlined
+} from "@ant-design/icons";
+
+import {
+  useNavigate,
+  useLocation
+} from "react-router-dom";
+
+const { Sider } = Layout;
+
+export default function Sidebar({
+  collapsed
+}) {
+  const navigate =
+    useNavigate();
+
+  const location =
+    useLocation();
+
+  const getSelectedKey = () => {
+      if (location.pathname === "/app/dashboard") return ["1"];
+      if (location.pathname === "/app/ai") return ["2"];
+      if (location.pathname === "/app/transactions") return ["3"];
+      if (location.pathname === "/app/clients") return ["4"];
+    return ["1"];
+  };
+
   return (
-    <div
-      className={`h-full bg-[#0F172A]/90 backdrop-blur-lg border-l border-white/10 flex flex-col transition-all duration-300
-      ${open ? "w-64" : "w-20"}`}
+    <Sider
+      collapsible
+      trigger={null}
+      collapsed={collapsed}
+      width={230}
+      collapsedWidth={80}
+      theme="dark"
     >
-      {/* Верх */}
-      <div className="p-4 flex justify-between items-center">
-        {open && (
-          <h1 className="text-xl font-bold text-blue-400">ФинХ</h1>
-        )}
-
-        <button
-          onClick={() => setOpen(!open)}
-          className="p-2 hover:bg-white/10 rounded-lg"
-        >
-          ☰
-        </button>
+      <div
+        style={{
+          height: 64,
+          display:
+            "flex",
+          alignItems:
+            "center",
+          justifyContent:
+            "center",
+          color: "#fff",
+          fontSize: 22,
+          fontWeight: 700,
+          borderBottom:
+            "1px solid rgba(255,255,255,0.08)"
+        }}
+      >
+        {collapsed
+          ? "Ф"
+          : "ФинХ"}
       </div>
 
-      {/* Меню */}
-      <nav className="flex flex-col gap-4 mt-6 px-3">
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={getSelectedKey()}
+        onClick={(e) => {
+          if (
+            e.key ===
+            "1"
+          )
+            navigate("/app/dashboard");
+            
+          if (
+            e.key ===
+            "2"
+          )
+            navigate("/app/ai");
 
-        <Item icon={<Home />} label="Рабочий стол" open={open} active />
-        <Item icon={<Wallet />} label="Бюджеты" open={open} />
-        <Item icon={<BarChart2 />} label="Отчеты" open={open} />
-        <Item icon={<Users />} label="Матрица" open={open} />
-        <Item icon={<HelpCircle />} label="Поддержка" open={open} />
+          if (
+            e.key ===
+            "3"
+          )
+            navigate("/app/transactions");
 
-      </nav>
-    </div>
-  );
-}
-
-function Item({ icon, label, open, active }) {
-  return (
-    <div
-      className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition
-      ${
-        active
-          ? "bg-blue-500/20 text-blue-400"
-          : "text-gray-400 hover:bg-white/10 hover:text-white"
-      }`}
-    >
-      <div>{icon}</div>
-
-      {open && <span>{label}</span>}
-    </div>
+          if (
+            e.key ===
+            "4"
+          )
+            navigate("/app/clients");
+        }}
+        items={[
+          {
+            key: "1",
+            icon: (
+              <DashboardOutlined />
+            ),
+            label:
+              "Главная"
+          },
+          {
+            key: "2",
+            icon: (
+              <RobotOutlined />
+            ),
+            label:
+              "AI отчёты"
+          },
+          {
+            key: "3",
+            icon: (
+              <TableOutlined />
+            ),
+            label:
+              "Операции"
+          },
+          {
+            key: "4",
+            icon: (
+              <TableOutlined />
+            ),
+            label:
+              "Клиенты"
+          }
+        ]}
+      />
+    </Sider>
   );
 }
