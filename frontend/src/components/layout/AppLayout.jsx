@@ -1,26 +1,114 @@
 import { useState } from "react";
+import { Layout, Button, Tooltip } from "antd";
+
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined
+} from "@ant-design/icons";
+
+import { Routes, Route } from "react-router-dom";
+
 import Sidebar from "./Sidebar";
 
-export default function AppLayout({ children }) {
-  const [open, setOpen] = useState(false);
+import Dashboard from "../../pages/Dashboard";
+import Transactions from "../../pages/Transactions";
+import AIpages from "../../pages/AIpages";
+import Clients from "../../pages/Clients";
+import Profile from "../../pages/Profile/Profile";
+
+const {
+  Header,
+  Content
+} = Layout;
+
+export default function AppLayout() {
+  const [collapsed, setCollapsed] =
+    useState(false);
 
   return (
-    <div className="flex h-screen bg-[#020617] text-white">
+    <Layout
+      style={{
+        minHeight:
+          "100vh"
+      }}
+    >
+      <Sidebar
+        collapsed={collapsed}
+      />
 
-      {/* Контент */}
-      <div className="flex-1 p-8 overflow-y-auto">
-        <button
-          onClick={() => setOpen(!open)}
-          className="mb-4 p-2 bg-white/10 rounded-lg"
+      <Layout>
+        {/* HEADER */}
+        <Header
+          style={{
+            background:
+              "#fff",
+            padding:
+              "0 16px",
+            display:
+              "flex",
+            alignItems:
+              "center",
+            boxShadow:
+              "0 1px 4px rgba(0,0,0,0.06)"
+          }}
         >
-          ☰
-        </button>
+          <Tooltip
+            title={
+              collapsed
+                ? "Открыть меню"
+                : "Скрыть меню"
+            }
+          >
+            <Button
+              type="text"
+              icon={
+                collapsed ? (
+                  <MenuUnfoldOutlined />
+                ) : (
+                  <MenuFoldOutlined />
+                )
+              }
+              onClick={() =>
+                setCollapsed(
+                  !collapsed
+                )
+              }
+              style={{
+                fontSize: 18
+              }}
+            />
+          </Tooltip>
 
-        {children}
-      </div>
+          <div
+            style={{
+              marginLeft: 12,
+              fontWeight: 600
+            }}
+          >
+            Финансовая система для ИП
+          </div>
+        </Header>
 
-      {/* Sidebar справа */}
-      <Sidebar open={open} setOpen={setOpen} />
-    </div>
+        {/* CONTENT */}
+        <Content
+          style={{
+            margin: 16,
+            padding: 20,
+            background:
+              "#fff",
+            borderRadius: 12
+          }}
+        >
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="ai" element={<AIpages />} />
+          <Route path="transactions" element={<Transactions />} />
+          <Route path="clients" element={<Clients />} />
+          <Route path="profile" element={<Profile />} />
+        </Routes>
+        </Content>
+      </Layout>
+    </Layout>
   );
 }

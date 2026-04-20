@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const initDB = require("./db/initDB");
 const express = require("express");
 const cors = require("cors");
@@ -8,6 +10,8 @@ const excelRoutes = require("./routes/excel.routes");
 const transactionsRoutes = require("./routes/transactions");
 const analyticsRoutes = require("./routes/analytics.routes");
 const formsRoutes = require("./routes/forms.routes");
+const clientsRoutes = require("./routes/clients.routes");
+const authRoutes = require("./routes/auth.routes");
 
 const app = express();
 
@@ -20,15 +24,28 @@ app.use("/api/excel", excelRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/forms", formsRoutes);
+app.use("/api/clients", clientsRoutes);
+app.use("/api/auth", authRoutes);
 
-const PORT = 5000;
+const PORT =
+process.env.PORT || 5000;
 
 async function start() {
-  await initDB(); 
+  try {
+    await initDB();
 
-  app.listen(5000, () => {
-    console.log("🚀 Server started");
-  });
+    app.listen(PORT, () => {
+      console.log(
+        `🚀 Server started on ${PORT}`
+      );
+    });
+
+  } catch (error) {
+    console.log(
+      "Ошибка запуска сервера:",
+      error
+    );
+  }
 }
 
 start();
