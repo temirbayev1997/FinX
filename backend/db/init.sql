@@ -1,8 +1,19 @@
 -- users
 CREATE TABLE IF NOT EXISTS users (
-  id SERIAL PRIMARY KEY,
-  name TEXT,
-  tax_mode TEXT DEFAULT '200'
+    id SERIAL PRIMARY KEY,
+
+    full_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password TEXT,
+    bin_iin VARCHAR(20) UNIQUE,
+
+    phone VARCHAR(30),
+    business_name VARCHAR(255),
+    category VARCHAR(100),
+    tax_mode VARCHAR(100),
+    legal_address VARCHAR(255),
+
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- transactions

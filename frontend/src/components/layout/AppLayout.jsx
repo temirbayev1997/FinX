@@ -14,6 +14,7 @@ import Dashboard from "../../pages/Dashboard";
 import Transactions from "../../pages/Transactions";
 import AIpages from "../../pages/AIpages";
 import Clients from "../../pages/Clients";
+import Profile from "../../pages/Profile/Profile";
 
 const {
   Header,
@@ -104,6 +105,7 @@ export default function AppLayout() {
           <Route path="ai" element={<AIpages />} />
           <Route path="transactions" element={<Transactions />} />
           <Route path="clients" element={<Clients />} />
+          <Route path="profile" element={<Profile />} />
         </Routes>
         </Content>
       </Layout>
