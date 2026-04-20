@@ -6,7 +6,12 @@ import {
 import {
   DashboardOutlined,
   RobotOutlined,
-  TableOutlined
+  TableOutlined,
+  UserOutlined,
+  RollbackOutlined,
+  BankOutlined,
+  WalletOutlined,
+  FormOutlined
 } from "@ant-design/icons";
 
 import {
@@ -30,6 +35,8 @@ export default function Sidebar({
       if (location.pathname === "/app/ai") return ["2"];
       if (location.pathname === "/app/transactions") return ["3"];
       if (location.pathname === "/app/clients") return ["4"];
+      if (location.pathname === "/app/profile") return ["5"];
+      if (location.pathname === "/") return ["6"];
     return ["1"];
   };
 
@@ -91,12 +98,22 @@ export default function Sidebar({
             "4"
           )
             navigate("/app/clients");
+          if (
+            e.key ===
+            "5"
+          )
+            navigate("/app/profile");
+          if (
+            e.key ===
+            "6"
+          )
+            navigate("/");
         }}
         items={[
           {
             key: "1",
             icon: (
-              <DashboardOutlined />
+              <FormOutlined />
             ),
             label:
               "Главная"
@@ -112,7 +129,7 @@ export default function Sidebar({
           {
             key: "3",
             icon: (
-              <TableOutlined />
+              <BankOutlined />
             ),
             label:
               "Операции"
@@ -124,6 +141,22 @@ export default function Sidebar({
             ),
             label:
               "Клиенты"
+          },
+          {
+            key: "5",
+            icon: (
+              <UserOutlined />
+            ),
+            label:
+              "Профиль"
+          },
+          {
+            key: "6",
+            icon: (
+              <RollbackOutlined />
+            ),
+            label:
+              "Выход"
           }
         ]}
       />
